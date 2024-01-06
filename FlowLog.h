@@ -27,8 +27,6 @@ SOFTWARE.
 #include <iostream>
 #include <Windows.h>
 #include <iomanip>
-#include <cstdarg>
-#include <string>
 
 enum LogLevel {
     INFO_           = 11,
@@ -113,7 +111,7 @@ namespace console
         va_end(Args);
     }
 
-    inline void Log(int Endl, const char* Input, ...)
+    inline void LogEx(int Endl, const char* Input, ...)
     {
         va_list Args;
         va_start(Args, Input);
@@ -139,7 +137,7 @@ namespace console
         va_end(Args);
     }
 
-    inline void Log(LogLevel lvl, bool Under, const char* Title, const char* Input, ...)
+    inline void LogWT(LogLevel lvl, bool Under, const char* Title, const char* Input, ...)
     {
         va_list Args;
         va_start(Args, Input);
