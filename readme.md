@@ -29,16 +29,16 @@ void init()
 	console::Title(_CYAN, 1, "Im Title");
 
 
-	//Print log type 1
-	console::Log(1, "Log1 true 0x%x", 0xdeadbeef);			console::Log(1, " <");		//Where it ends
-	console::Log(0, "Log1 false 0x%x", 0xdeadbeef);			console::Log(1, " <");
+	//Print log type log in white
+	console::LogEx(1, "Log1 true 0x%x", 0xdeadbeef);			console::Log(1, " <");		//Where it ends
+	console::LogEx(0, "Log1 false 0x%x", 0xdeadbeef);			console::Log(1, " <");
 
 
 	//Line spacer
 	console::LineSpacer(3);
 
 
-	//Print log type 2
+	//Print log type coloured log
 	console::Log(_MAGENTA, 1, "Log2 true 0x%x", 0xdeadbeef);	console::Log(1, " <");
 	console::Log(_MAGENTA, 0, "Log2 false 0x%x", 0xdeadbeef);	console::Log(1, " <");
 
@@ -49,9 +49,9 @@ void init()
 
 
 
-	//Print log type 3
-	console::Log(INFO_, true, "Log3", "true 0x%x", 0xdeadbeef);	console::Log(1, " <");
-	console::Log(INFO_, false, "Log3", "false 0x%x", 0xdeadbeef);	console::Log(1, " <");
+	//Print log type with title
+	console::LogWT(INFO_, true, "Log3", "true 0x%x", 0xdeadbeef);	console::Log(1, " <");
+	console::LogWT(INFO_, false, "Log3", "false 0x%x", 0xdeadbeef);	console::Log(1, " <");
 
 	console::LineSpacer(3);
 
