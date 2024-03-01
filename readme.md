@@ -22,81 +22,84 @@ FlowLog is a simple console logging library for C++ that provides easy-to-use fu
 void init()
 {
 	//Initialize console
-	console::Init("Debug Win");
+	Console console("Debug win");
 
 
 	//Print title
-	console::Title(_CYAN, 1, "Im Title");
+	console.Title(_CYAN, 1, "Im Title");
 
 
 	//Print log type log in white
-	console::LogEx(1, "Log1 true 0x%x", 0xdeadbeef);			console::Log(1, " <");		//Where it ends
-	console::LogEx(0, "Log1 false 0x%x", 0xdeadbeef);			console::Log(1, " <");
+	console.LogEx(1, "Log1 true 0x%x", 0xdeadbeef);				console.Log(1, " <");		//Where it ends
+	console.LogEx(0, "Log1 false 0x%x", 0xdeadbeef);			console.Log(1, " <");
 
 
 	//Line spacer
-	console::LineSpacer(3);
+	console.LineSpacer(3);
 
 
 	//Print log type coloured log
-	console::Log(_MAGENTA, 1, "Log2 true 0x%x", 0xdeadbeef);	console::Log(1, " <");
-	console::Log(_MAGENTA, 0, "Log2 false 0x%x", 0xdeadbeef);	console::Log(1, " <");
+	console.Log(_MAGENTA, 1, "Log2 true 0x%x", 0xdeadbeef);			console.Log(1, " <");
+	console.Log(_MAGENTA, 0, "Log2 false 0x%x", 0xdeadbeef);		console.Log(1, " <");
 
 
 
 	//Line spacer
-	console::LineSpacer(3);
+	console.LineSpacer(3);
 
 
 
 	//Print log type with title
-	console::LogWT(INFO_, true, "Log3", "true 0x%x", 0xdeadbeef);	console::Log(1, " <");
-	console::LogWT(INFO_, false, "Log3", "false 0x%x", 0xdeadbeef);	console::Log(1, " <");
+	console.LogWT(INFO_, true, "Log3", "true 0x%x", 0xdeadbeef);		console.Log(1, " <");
+	console.LogWT(INFO_, false, "Log3", "false 0x%x", 0xdeadbeef);		console.Log(1, " <");
 
 	console::LineSpacer(3);
 
 
 	//Print log type report
-	console::Report(INFO_, 1, 1, "true 0x%x", 0xdeadbeef);		console::Log(1, " <");
-	console::Report(WARNING_, 1, 1, "true 0x%x", 0xdeadbeef);	console::Log(1, " <");
-	console::Report(ERROR_, 1, 1, "true 0x%x", 0xdeadbeef);		console::Log(1, " <");
+	console.Report(INFO_, 1, 1, "true 0x%x", 0xdeadbeef);			console.Log(1, " <");
+	console.Report(WARNING_, 1, 1, "true 0x%x", 0xdeadbeef);		console.Log(1, " <");
+	console.Report(ERROR_, 1, 1, "true 0x%x", 0xdeadbeef);			console.Log(1, " <");
 
 
 
 	//Line spacer
-	console::LineSpacer(3);
+	console.LineSpacer(3);
 
 
 
 	//Print log type report
-	console::Report(INFO_, false, 1, "false 0x%x", 0xdeadbeef);	console::Log(1, " <");
-	console::Report(WARNING_, false, 1, "false 0x%x", 0xdeadbeef);	console::Log(1, " <");
-	console::Report(ERROR_, false, 1, "false 0x%x", 0xdeadbeef);	console::Log(1, " <");
+	console.Report(INFO_, false, 1, "false 0x%x", 0xdeadbeef);		console.Log(1, " <");
+	console.Report(WARNING_, false, 1, "false 0x%x", 0xdeadbeef);		console.Log(1, " <");
+	console.Report(ERROR_, false, 1, "false 0x%x", 0xdeadbeef);		console.Log(1, " <");
 
 
 
 	//Line spacer
-	console::LineSpacer(3);
+	console.LineSpacer(3);
 
 
 
 	//set console title
-	console::SetConTitle("Test");
+	console.SetConTitle("Test");
 
 
 
 	//set print colour
-	console::SetColour(_GREEN);
+	console.SetColour(_GREEN);
 
 
 
 	//Print log type 1
-	console::Log(1, "Set console title to Test");
+	console.Log(1, "Set console title to Test");
 
 
 
 	//clear log 10sec
-	console::ClearLog(10000);
+	console.ClearLog(10000);
+
+	//Destroy Console
+	console.Destroy();
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved)
