@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#ifndef FlowLog    //header guard
-#define FlowLog
+#ifndef FLOW_LOG    //header guard
+#define FLOW_LOG
 
 #include <iostream>
 #include <Windows.h>
@@ -51,132 +51,141 @@ enum LogLevel {
     _WHITE          = 15
 };
 
-namespace console
+class Console
 {
-    inline void SetConTitle(const char* Title)
+private:
+    FILE* file;
+public:
+    Console()
+    {
+        AllocConsole();
+        freopen_s(&file, "CONOUT$", "w", stdout);
+    }
+
+    Console(const char* Title)
+    {
+        AllocConsole();
+        freopen_s(&file, "CONOUT$", "w", stdout);
+
+        SetConTitle(Title);
+    }
+
+    ~Console() { fclose(file); FreeConsole(); }
+
+    void Destroy() { fclose(file); FreeConsole(); }
+
+    void SetConTitle(const char* Title)
     {
         SetConsoleTitleA(Title);
     }
 
-    inline void Init()
-	{
-		AllocConsole();
-        freopen("CONOUT$", "w", stdout);
-	}
-
-    inline void Init(const char* Title)
-    {
-        AllocConsole();
-        freopen("CONOUT$", "w", stdout);
-        console::SetConTitle(Title);
-    }
-
-    inline void LineSpacer(int Space)
+    void LineSpacer(int Space)
     {
         for (int i = 1; i <= Space; i++)
             std::cout << std::endl;
     }
 
-    inline void ClearLog()
-    {
-        system("cls");
-    }
+    void ResetLog() { SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 }); }
 
-    inline void ClearLog(int Delay)
-    {
-        Sleep(Delay);
-        system("cls");
-    }
+    void ClearLog() { system("cls"); }
 
-    inline void SetColour(LogLevel lvl)
-    {
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lvl);
-    }
+    void SetColour(LogLevel lvl) { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lvl); }
 
-    inline void Title(LogLevel lvl, int Endl, const char* Title, ...)
+
+    void Title(LogLevel lvl, int Endl, const char* Title, ...)
     {
         va_list Args;
         va_start(Args, Title);
         int pad = 30 - vsnprintf(nullptr, 0, Title, Args);
 
-        console::SetColour(lvl);
-
         std::cout << "[";
+        SetColour(lvl);
+
         vprintf(Title, Args);
+
+        SetColour(_WHITE);
         std::cout << "] " << std::setw(pad) << "";
 
-        console::LineSpacer(Endl);
-        console::SetColour(_WHITE);
+        LineSpacer(Endl);
 
         va_end(Args);
     }
 
-    inline void LogEx(int Endl, const char* Input, ...)
+    void LogEx(int Endl, const char* Input, ...)
     {
         va_list Args;
         va_start(Args, Input);
 
         vprintf(Input, Args);
 
-        console::LineSpacer(Endl);
+        LineSpacer(Endl);
 
         va_end(Args);
     }
 
-    inline void Log(LogLevel lvl, int Endl, const char* Input, ...)
+    void Log(LogLevel lvl, int Endl, const char* Input, ...)
     {
         va_list Args;
         va_start(Args, Input);
 
-        console::SetColour(lvl);
+        SetColour(lvl);
         vprintf(Input, Args);
-        console::SetColour(_WHITE);
+        SetColour(_WHITE);
 
-        console::LineSpacer(Endl);
+        LineSpacer(Endl);
 
         va_end(Args);
     }
 
-    inline void LogWT(LogLevel lvl, bool Under, const char* Title, const char* Input, ...)
+    void LogWT(LogLevel lvl, bool Under, const char* Title_, const char* Input, ...)
     {
         va_list Args;
         va_start(Args, Input);
 
-        console::Title(lvl, Under, Title);
+        Title(lvl, Under, Title_);
 
         vprintf(Input, Args);
-        
-        console::LineSpacer(1);
+
+        LineSpacer(1);
 
         va_end(Args);
     }
 
-    inline void Report(LogLevel lvl, bool Under, int Endl, const char* Input, ...)
-	{
+    void Report(LogLevel lvl, bool Under, int Endl, const char* Input, ...)
+    {
         va_list Args;
         va_start(Args, Input);
 
         switch (lvl)
         {
         case LogLevel::INFO_:
-            console::Title(lvl, Under, "Info");
+            Title(lvl, Under, "Info");
             break;
 
         case LogLevel::WARNING_:
-            console::Title(lvl, Under, "Warning");
+            Title(lvl, Under, "Warning");
             break;
 
         case LogLevel::ERROR_:
-            console::Title(lvl, Under, "Error");
-                break;
+            Title(lvl, Under, "Error");
+            break;
         }
 
         vprintf(Input, Args);
 
-        console::LineSpacer(Endl);
+        LineSpacer(Endl);
 
         va_end(Args);
-	}
-}
+    }
 
-#endif // !flow_log
+    void ShowCursor(bool show)
+    {
+        HANDLE ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_CURSOR_INFO     cursorInfo;
+        GetConsoleCursorInfo(ConsoleHandle, &cursorInfo);
+        cursorInfo.bVisible = show;
+        SetConsoleCursorInfo(ConsoleHandle, &cursorInfo);
+    }
+};
+
+#endif // !FLOW_LOG
