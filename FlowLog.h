@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#ifndef FLOW_LOG    //header guard
-#define FLOW_LOG
+#ifndef FlowLog    //header guard
+#define FlowLog
 
 #include <iostream>
 #include <Windows.h>
@@ -96,7 +96,6 @@ public:
     {
         va_list Args;
         va_start(Args, Title);
-        int pad = 30 - vsnprintf(nullptr, 0, Title, Args);
 
         std::cout << "[";
         SetColour(lvl);
@@ -104,7 +103,7 @@ public:
         vprintf(Title, Args);
 
         SetColour(_WHITE);
-        std::cout << "] " << std::setw(pad) << "";
+        std::cout << "]   ";
 
         LineSpacer(Endl);
 
@@ -187,5 +186,6 @@ public:
         SetConsoleCursorInfo(ConsoleHandle, &cursorInfo);
     }
 };
+#endif // !flow_log
 
 #endif // !FLOW_LOG
