@@ -21,34 +21,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#ifndef FlowLog    //header guard
-#define FlowLog
+#ifndef FLOW_LOG    //header guard
+#define FLOW_LOG
 
 #include <iostream>
 #include <Windows.h>
 #include <iomanip>
 
-enum LogLevel {
-    INFO_           = 11,
-    WARNING_        = 6,
-    ERROR_          = 4,
+enum class LogLevel {
+    INFO           = 11,
+    WARNING        = 6,
+    ERROR_         = 4,
 
-    _BLACK          = 0,
-    _BLUE           = 1,
-    _GREEN          = 2,
-    _CYAN           = 3,
-    _RED            = 4,
-    _MAGENTA        = 5,
-    _ORANGE         = 6,
-    _LIGHGRAY       = 7,
-    _DARKGRAY       = 8,
-    _LIGHTBLUE      = 9,
-    _LIGHTGREEN     = 10,
-    _LIGHTCYAN      = 11,
-    _LIGHTRED       = 12,
-    _LIGHTMAGENTA   = 13,
-    _YELLOW         = 14,
-    _WHITE          = 15
+    BLACK          = 0,
+    BLUE           = 1,
+    GREEN          = 2,
+    CYAN           = 3,
+    RED            = 4,
+    MAGENTA        = 5,
+    ORANGE         = 6,
+    LIGHGRAY       = 7,
+    DARKGRAY       = 8,
+    LIGHTBLUE      = 9,
+    LIGHTGREEN     = 10,
+    LIGHTCYAN      = 11,
+    LIGHTRED       = 12,
+    LIGHTMAGENTA   = 13,
+    YELLOW         = 14,
+    WHITE          = 15
 };
 
 class Console
@@ -89,7 +89,7 @@ public:
 
     void ClearLog() { system("cls"); }
 
-    void SetColour(LogLevel lvl) { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lvl); }
+    void SetColour(LogLevel lvl) { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (WORD)lvl); }
 
 
     void Title(LogLevel lvl, int Endl, const char* Title, ...)
@@ -102,7 +102,7 @@ public:
 
         vprintf(Title, Args);
 
-        SetColour(_WHITE);
+        SetColour(LogLevel::WHITE);
         std::cout << "]   ";
 
         LineSpacer(Endl);
@@ -129,7 +129,7 @@ public:
 
         SetColour(lvl);
         vprintf(Input, Args);
-        SetColour(_WHITE);
+        SetColour(LogLevel::WHITE);
 
         LineSpacer(Endl);
 
@@ -157,11 +157,11 @@ public:
 
         switch (lvl)
         {
-        case LogLevel::INFO_:
+        case LogLevel::INFO:
             Title(lvl, Under, "Info");
             break;
 
-        case LogLevel::WARNING_:
+        case LogLevel::WARNING:
             Title(lvl, Under, "Warning");
             break;
 
@@ -186,6 +186,6 @@ public:
         SetConsoleCursorInfo(ConsoleHandle, &cursorInfo);
     }
 };
-#endif // !flow_log
+#endif // !FLOW_LOG
 
 #endif // !FLOW_LOG
